@@ -49,11 +49,15 @@
   :type 'string
   :group 'erc-logger)
 
-
 (defcustom erc-logger-log-interval
   10
   "The interval (second) to run `erc-log-buffers' repeatedly."
   :type 'float
+  :group 'erc-logger)
+
+(defcustom erc-logger-quiet-log nil
+  "Silence echo area and `*Messages*' notifications about appending files."
+  :type 'boolean
   :group 'erc-logger)
 
 (defvar erc-logger-log-timer nil)
@@ -126,7 +130,9 @@
 					(setq current-message-point new-current-message-point)))
 				(if (file-exists-p file-full-path)
 				    (when (not (= end-of-message-point current-message-point))
-				      (append-to-file current-message-point end-of-message-point file-full-path))
+                                      (let ((inhibit-message (if erc-logger-quiet-log t inhibit-message))
+                                            (message-log-max (if erc-logger-quiet-log nil message-log-max)))
+				        (append-to-file current-message-point end-of-message-point file-full-path)))
 				  (erc-logger-write-file-immut file-full-path))
 				(when (not (= end-of-message-point current-message-point))
 				  (puthash erc-buffer end-of-message-point erc-logger-irc-buffer-size-map)))
