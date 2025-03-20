@@ -32,6 +32,7 @@ write the following config with any file name (eg. `.erc.emacs`)
 (setq erc-autojoin-channels-alist '(("libera.chat" "#c" "#c++" "#linux"
                                      "#lisp" "##c++" "#clasp" "#clojure" "#guile"
                                       "#vim" "#neovim" "#emacs" "#erc")))
+(setq erc-logger-quiet-log t) ;; if you don't want spammed with "Added to..." messages
 (erc-logger-log-start))))
 </pre>
 
